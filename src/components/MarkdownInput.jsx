@@ -1,7 +1,7 @@
-export default function MarkdownInput(){
+export default function MarkdownInput({note, key}){
 
   return (
-    <div className="MarkdownInput">MarkdownInput</div>
+    <div className="MarkdownInput">MarkdownInput {note.title}</div>
   )
 
 }

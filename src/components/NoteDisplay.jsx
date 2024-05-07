@@ -1,6 +1,9 @@
-export default function NoteDisplay(){
+export default function NoteDisplay({note, key}){
 
   return (
-    <div className="NoteDisplay">NoteDisplay</div>
+    <div className="NoteDisplay">
+      <h1>{note.title}</h1>
+      
+      </div>
   )
 }
