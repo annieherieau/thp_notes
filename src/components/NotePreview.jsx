@@ -1,6 +1,9 @@
-export default function NotePreview({note, key}){
-
+export default function NotePreview({ note, key, onClick}) {
+  const content = note.content.split(" ").slice(0, 14).join(" ");
   return (
-    <div className="NotePreview">NotePreview</div>
-  )
+    <div className="NotePreview" onClick={onClick}>
+      <h6 className="title-preview">{note.title}</h6>
+      <div className="content-preview">{content}</div>
+    </div>
+  );
 }

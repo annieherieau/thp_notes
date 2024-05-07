@@ -15,27 +15,29 @@ const App = () => {
   const [storageKeys, setStorageKeys] = useState(
     Object.keys(localStorage) ? Object.keys(localStorage) : []
   );
-  const getNotes = () => {
-    if (storageKeys.length > 0) {
-      storageKeys.map((key) => {
-        const note = JSON.parse(localStorage.getItem(key));
-        return { key, note };
-      });
-    } else {
-      return [];
-    }
-  };
   const [savedNotes, setSavedNotes] = useState(getNotes());
-  const lastSavedNote = () => {
+  const [currentNote, setCurrentNote] = useState(
+    selectedNote(storageKeys[storageKeys.length - 1])
+  );
+  function selectedNote(key) {
     if (storageKeys.length > 0) {
-      const key = storageKeys[storageKeys.length - 1];
       const note = JSON.parse(localStorage.getItem(key));
-      return { key, note };
+      note.key = key;
+      return { note };
     } else {
-      return [];
+      return null;
     }
-  };
-  const [currentNote, setCurrentNote] = useState(lastSavedNote());
+  }
+
+  function getNotes() {
+    let notes_array = [];
+    if (storageKeys.length > 0) {
+      notes_array = storageKeys.map((key) => {
+        return selectedNote(key);
+      });
+    }
+    return notes_array;
+  }
 
   useEffect(() => {
     setSavedNotes(getNotes());
@@ -43,28 +45,31 @@ const App = () => {
 
   const addNote = () => {
     const key = Date.now();
-    const note = { title: key, content: "2" };
+    const note = { key, title: "mon titre", content: "test note!" };
     localStorage.setItem(key, JSON.stringify(note));
     setStorageKeys(Object.keys(localStorage));
-    setCurrentNote({ key, note });
+    setCurrentNote({ note });
   };
 
-  console.log(currentNote);
   return (
     <Layout
       style={{
         minHeight: "100vh",
       }}
     >
-      <Sider>
+      <Sider className="menu">
         <div className="logo" />
 
         <Button className="addNote" onClick={() => addNote()} type="primary">
           Nouvelle Note
         </Button>
-        {/* {savedNotes.map((noteData) => (
-            <NotePreview note={noteData.note} key={noteData.key} />
-          ))} */}
+        {savedNotes.map((noteData) => (
+          <NotePreview
+            note={noteData.note}
+            key={noteData.note.key}
+            onClick={() => setCurrentNote(selectedNote(noteData.note.key))}
+          />
+        ))}
         <Button onClick={() => localStorage.clear()}>Effacter Tout</Button>
       </Sider>
       <Layout>
@@ -74,8 +79,9 @@ const App = () => {
           }}
         >
           <p color="white">Notes Sauvegardées : {storageKeys.length}</p>
-          <NoteDisplay note={currentNote.note} key= {currentNote.key} />
-          <MarkdownInput note={currentNote.note} key= {currentNote.key} />
+          {currentNote && <NoteDisplay note={currentNote.note} />}
+
+          {currentNote && <MarkdownInput note={currentNote.note} />}
         </Content>
         <Footer
           style={{
