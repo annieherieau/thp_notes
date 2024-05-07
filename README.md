@@ -6,6 +6,7 @@ L'une des applications les plus connues au monde est le simple bloc-notes. Dispo
 Ton objectif, aujourd'hui, sera de créer un bloc-notes. Dans celui-ci, tu pourras écrire en markdown, et ton texte sera affiché en live sous forme de HTML.
 
 L'ensemble des notes sera stocké dans le localStorage.
+Pour transformer ton markdown en HTML, tu pourras utiliser la lib "(showdown)[https://github.com/showdownjs/showdown]". 
 
 ## Installation
 
