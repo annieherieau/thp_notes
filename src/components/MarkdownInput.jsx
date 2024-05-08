@@ -1,3 +1,4 @@
+import { Form } from "antd";
 import { Button, Input } from "antd";
 
 export default function MarkdownInput({ note, onChange, onClick, onDelete }) {
@@ -6,19 +7,25 @@ export default function MarkdownInput({ note, onChange, onClick, onDelete }) {
 
   return (
     <div className="MarkdownInput">
-        <label htmlFor="input-title"></label>
+        <label htmlFor="input-title">Titre</label>
         <Input
           id="input-title"
           name="input-title"
           onChange={onChange}
           value={note.title}
+          placeholder="[nouvelle note : titre]"
         />
-        <label htmlFor="input-contenu"></label>
+        <label htmlFor="input-content">Contenu</label>
         <Input.TextArea
           id="input-content"
-          name="input-contenu"
+          name="input-content"
           onChange={onChange}
           value={note.content}
+          placeholder="[nouvelle note: contenu]"
+          autoSize={{
+            minRows: 10,
+            maxRows: 20,
+          }}
         >
           {note.content}
         </Input.TextArea>

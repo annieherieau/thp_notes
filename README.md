@@ -13,8 +13,9 @@ Pour transformer ton markdown en HTML, tu pourras utiliser la lib "(showdown)[ht
 Clone repository
 
 Install dépendencies:
-- react
+- React
 - Ant Design
+- Sass (dev)
 
 ```bash
 pnpm i

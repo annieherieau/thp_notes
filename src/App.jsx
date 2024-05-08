@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, theme, Button } from "antd";
+import { Layout, Button } from "antd";
 import MarkdownInput from "./components/MarkdownInput";
 import NoteDisplay from "./components/NoteDisplay";
 import { useEffect } from "react";
@@ -7,19 +7,59 @@ import NotePreview from "./components/NotePreview";
 const { Content, Footer, Sider } = Layout;
 
 const App = () => {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
-
   // LOCALSTORAGE
   const [storageKeys, setStorageKeys] = useState(
     Object.keys(localStorage) ? Object.keys(localStorage) : []
   );
   const [savedNotes, setSavedNotes] = useState(getNotes());
-  const [currentNote, setCurrentNote] = useState(selectedNote());
+  const [currentNote, setCurrentNote] = useState({
+    key: Date.now(),
+    title: "",
+    content: "",
+  });
+  const [title, setTitle] = useState(currentNote.title);
+  const [content, setContent] = useState(currentNote.content);
 
-  const [title, setTitle] = useState(currentNote ? currentNote.title : "");
-  const [content, setContent] = useState(currentNote ? currentNote.content : "");
+  useEffect(() => {
+    setSavedNotes(getNotes());
+  }, [storageKeys]);
+
+  useEffect(() => {
+    if (currentNote) {
+      setCurrentNote({ ...currentNote.note, title, content });
+    }
+  }, [title, content]);
+
+  useEffect(() => {
+    setSavedNotes(getNotes());
+    setTitle(currentNote.title);
+    setContent(currentNote.content);
+  }, [currentNote]);
+
+  const saveNote = () => {
+    localStorage.setItem(
+      currentNote.key,
+      JSON.stringify({ title: currentNote.title, content: currentNote.content })
+    );
+    setSavedNotes(getNotes());
+  };
+
+  function addNote() {
+    setCurrentNote({ key: Date.now(), title: "", content: "" });
+    localStorage.setItem(currentNote.key, JSON.stringify(currentNote));
+    setStorageKeys(Object.keys(localStorage));
+  }
+
+  const updateNote = (event) => {
+    let label = event.target.id.split("-").pop();
+    if (label === "title") {
+      setTitle(event.target.value);
+    }
+
+    if (label === "content") {
+      setContent(event.target.value);
+    }
+  };
 
   function selectedNote(key = storageKeys[storageKeys.length - 1]) {
     if (storageKeys.length > 0) {
@@ -39,47 +79,6 @@ const App = () => {
     }
     return notes_array;
   }
-
-  useEffect(() => {
-    setSavedNotes(getNotes());
-  }, [storageKeys]);
-
-  function addNote() {
-    const key = Date.now();
-    const note = { key, title: "", content: "" };
-    localStorage.setItem(key, JSON.stringify(note));
-    setStorageKeys(Object.keys(localStorage));
-    setCurrentNote({ note });
-  }
-
-  const updateNote = (event) => {
-    let label = event.target.id.split("-").pop();
-    if (label === "title") {
-      setTitle(event.target.value);
-    }
-
-    if (label === "content") {
-      setContent(event.target.value);
-    }
-  };
-
-  useEffect(() => {
-    if (currentNote){
-      setCurrentNote({ ...currentNote.note, title, content });
-    } 
-  }, [title, content]);
-
-  useEffect(() =>{
-    setSavedNotes(getNotes())
-  }, [currentNote])
-
-  const saveNote = () => {
-    localStorage.setItem(
-      currentNote.key,
-      JSON.stringify({ title: currentNote.title, content: currentNote.content })
-    );
-    setSavedNotes(getNotes());
-  };
 
   const deleteNote = (key) => {
     localStorage.removeItem(key);
@@ -110,11 +109,11 @@ const App = () => {
       <Layout>
         <Content
           style={{
-            margin: "0 16px",
+            margin: ".75rem 2rem",
           }}
         >
           {currentNote && <NoteDisplay note={currentNote} />}
-
+          <hr></hr>
           {currentNote && (
             <MarkdownInput
               note={currentNote}
