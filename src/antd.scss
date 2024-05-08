@@ -51,6 +51,7 @@ $border:$lightgrey 1px solid;
   border-radius: $border-radius;
   border: $border;
   padding: $spacing $spacing-xl;
+  margin-top: $spacing;
 }
 
 h1{
@@ -58,10 +59,17 @@ h1{
   color: $primary;
 }
 
+hr {
+  margin: $spacing-xl 0;
+}
+
 .MarkdownInput input, .MarkdownInput textarea{
  margin: $spacing 0;
 }
 
-hr {
-  margin: $spacing-xl 0;
+
+.form-btns{
+  display: flex;
+  justify-content: end;
+  gap: $spacing;
 }
