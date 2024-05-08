@@ -102,7 +102,7 @@ const App = () => {
         <div className="logo" />
 
         <Button
-          className="addNote"
+          className="add-note"
           onClick={() => setCurrentNote(emptyNote())}
           type="primary"
         >
@@ -120,7 +120,7 @@ const App = () => {
           />
         ))}
 
-        <Button onClick={clearStorage}>Effacter Tout</Button>
+        <Button danger className="clear-storage" onClick={clearStorage}>Effacter Tout</Button>
       </Sider>
       <Layout>
         <Content

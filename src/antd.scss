@@ -27,15 +27,17 @@ $border:$lightgrey 1px solid;
   border: $border;
   margin: $spacing 0;
   background-color: $light;
+  color: $black;
 }
 .NotePreview:hover{
   background-color: $white;
+  color: $primary;
 }
 .title-preview {
   font-size: $normal;
   font-weight: bold;
-  color: $primary;
   padding: $innner-spacing;
+  border-bottom: $border;
 }
 
 .content-preview{
