@@ -128,6 +128,7 @@ const App = () => {
             margin: ".75rem 2rem",
           }}
         >
+          <h1>Bloc-Note</h1>
           {currentNote && <NoteDisplay note={currentNote} />}
           <hr></hr>
           {currentNote && (
@@ -146,7 +147,7 @@ const App = () => {
             textAlign: "center",
           }}
         >
-          Annie Hérieau ©{new Date().getFullYear()}
+          <a href='https://github.com/annieherieau'>Annie Hérieau</a> ©{new Date().getFullYear()}
         </Footer>
       </Layout>
     </Layout>

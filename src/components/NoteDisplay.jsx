@@ -9,7 +9,7 @@ export default function NoteDisplay({ note }) {
     }
     return (
       <div className="NoteDisplay">
-        <h1 className="note-title'">{note.title}</h1>
+        <h2 className="note-title'">{note.title}</h2>
         <div className='note-content' dangerouslySetInnerHTML={createMarkup()}></div>
       </div>
     );
