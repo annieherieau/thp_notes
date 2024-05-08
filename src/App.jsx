@@ -8,15 +8,14 @@ const { Content, Footer, Sider } = Layout;
 
 const App = () => {
   // LOCALSTORAGE
+  const emptyNote = () => {
+    return { key: Date.now(), title: "", content: "" };
+  };
   const [storageKeys, setStorageKeys] = useState(
     Object.keys(localStorage) ? Object.keys(localStorage) : []
   );
   const [savedNotes, setSavedNotes] = useState(getNotes());
-  const [currentNote, setCurrentNote] = useState({
-    key: Date.now(),
-    title: "",
-    content: "",
-  });
+  const [currentNote, setCurrentNote] = useState(emptyNote());
   const [title, setTitle] = useState(currentNote.title);
   const [content, setContent] = useState(currentNote.content);
 
@@ -26,12 +25,11 @@ const App = () => {
 
   useEffect(() => {
     if (currentNote) {
-      setCurrentNote({ ...currentNote.note, title, content });
+      setCurrentNote({ ...currentNote, title, content });
     }
   }, [title, content]);
 
   useEffect(() => {
-    setSavedNotes(getNotes());
     setTitle(currentNote.title);
     setContent(currentNote.content);
   }, [currentNote]);
@@ -39,17 +37,19 @@ const App = () => {
   const saveNote = () => {
     localStorage.setItem(
       currentNote.key,
-      JSON.stringify({ title: currentNote.title, content: currentNote.content })
+      JSON.stringify({
+        key: currentNote.key,
+        title: currentNote.title,
+        content: currentNote.content,
+      })
     );
-    setSavedNotes(getNotes());
+    updateStorage();
   };
 
-  function addNote() {
-    setCurrentNote({ key: Date.now(), title: "", content: "" });
-    localStorage.setItem(currentNote.key, JSON.stringify(currentNote));
+  const updateStorage = () => {
     setStorageKeys(Object.keys(localStorage));
-  }
-
+    setSavedNotes(getNotes());
+  };
   const updateNote = (event) => {
     let label = event.target.id.split("-").pop();
     if (label === "title") {
@@ -81,9 +81,17 @@ const App = () => {
   }
 
   const deleteNote = (key) => {
+    setCurrentNote(emptyNote());
     localStorage.removeItem(key);
-    setCurrentNote(selectedNote());
+    updateStorage();
   };
+
+  const clearStorage = () => {
+    localStorage.clear();
+    updateStorage();
+    
+  };
+
   return (
     <Layout
       style={{
@@ -93,18 +101,26 @@ const App = () => {
       <Sider className="menu">
         <div className="logo" />
 
-        <Button className="addNote" onClick={() => addNote()} type="primary">
+        <Button
+          className="addNote"
+          onClick={() => setCurrentNote(emptyNote())}
+          type="primary"
+        >
           Nouvelle Note
         </Button>
+        <p>Notes Sauvegardées : {storageKeys.length}</p>
         {savedNotes.map((note) => (
           <NotePreview
             note={note}
             key={note.key}
             onClick={() => setCurrentNote(selectedNote(note.key))}
+            onDelete={() => {
+              deleteNote(note.key);
+            }}
           />
         ))}
-        <p>Notes Sauvegardées : {storageKeys.length}</p>
-        <Button onClick={() => localStorage.clear()}>Effacter Tout</Button>
+
+        <Button onClick={clearStorage}>Effacter Tout</Button>
       </Sider>
       <Layout>
         <Content
