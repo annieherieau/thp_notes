@@ -1,4 +1,3 @@
-import { Form } from "antd";
 import { Button, Input } from "antd";
 
 export default function MarkdownInput({ note, onChange, onClick, onDelete }) {
