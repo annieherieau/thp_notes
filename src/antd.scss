@@ -6,11 +6,12 @@ $light: #f5f5f5;
 $lightgrey: #e7e7e7;
 $grey: rgb(156, 151, 151);
 $black: black;
+$danger: red;
 $primary: #1777ff;
 $normal: 1em;
-$x-small: .8em;
+$x-small: 0.8em;
 $border-radius: 0.5em;
-$border:$lightgrey 1px solid;
+$border: $lightgrey 1px solid;
 
 // SIDEBAR
 .menu {
@@ -23,14 +24,15 @@ $border:$lightgrey 1px solid;
 .NotePreview {
   cursor: pointer;
   min-height: 3rem;
+  min-height: 4rem;
   border-radius: $border-radius;
   border: $border;
   margin: $spacing 0;
   background-color: $light;
   color: $black;
+  overflow: scroll;
 }
-.NotePreview:hover{
-  background-color: $white;
+.NotePreview:hover {
   color: $primary;
 }
 .title-preview {
@@ -40,14 +42,27 @@ $border:$lightgrey 1px solid;
   border-bottom: $border;
 }
 
-.content-preview{
+.content-preview {
   font-size: $x-small;
   color: $black;
   padding: $innner-spacing;
 }
 
+.delete-btn {
+  background-color: $light;
+  color: $danger;
+  border: $black;
+  float: right;
+}
+
+.delete-btn button:hover {
+  background-color: $danger important;
+  color: $danger;
+  border: $black;
+}
+
 // MAIN CONTENT
-.NoteDisplay{
+.NoteDisplay {
   min-height: 35vh;
   background-color: $white;
   border-radius: $border-radius;
@@ -56,7 +71,7 @@ $border:$lightgrey 1px solid;
   margin-top: $spacing;
 }
 
-h1{
+h1 {
   margin: 0;
   color: $primary;
 }
@@ -65,13 +80,19 @@ hr {
   margin: $spacing-xl 0;
 }
 
-.MarkdownInput input, .MarkdownInput textarea{
- margin: $spacing 0;
+.MarkdownInput input,
+.MarkdownInput textarea {
+  margin: $spacing 0;
 }
 
-
-.form-btns{
+.form-btns {
   display: flex;
   justify-content: end;
   gap: $spacing;
+}
+
+pre {
+  background-color: $light;
+  padding: $innner-spacing;
+  color: $grey;
 }
