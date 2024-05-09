@@ -7,18 +7,22 @@ import NotePreview from "./components/NotePreview";
 const { Content, Footer, Sider } = Layout;
 
 const App = () => {
-  // LOCALSTORAGE
+  //  ***** VARIABLES ***** //
+  // nouvelle note vide
   const emptyNote = () => {
     return { key: Date.now(), title: "", content: "" };
   };
+  // clés des notes de localStorage
   const [storageKeys, setStorageKeys] = useState(
     Object.keys(localStorage) ? Object.keys(localStorage) : []
   );
+  // notes sauvegardées et importées de localStorage
   const [savedNotes, setSavedNotes] = useState(getNotes());
   const [currentNote, setCurrentNote] = useState(emptyNote());
   const [title, setTitle] = useState(currentNote.title);
   const [content, setContent] = useState(currentNote.content);
 
+  //  ***** COMPORTEMENTS ***** //
   useEffect(() => {
     setSavedNotes(getNotes());
   }, [storageKeys]);
@@ -50,12 +54,12 @@ const App = () => {
     setStorageKeys(Object.keys(localStorage));
     setSavedNotes(getNotes());
   };
+
   const updateNote = (event) => {
     let label = event.target.id.split("-").pop();
     if (label === "title") {
       setTitle(event.target.value);
     }
-
     if (label === "content") {
       setContent(event.target.value);
     }
@@ -92,6 +96,7 @@ const App = () => {
     
   };
 
+  //  ***** AFFICHAGE (render) ***** //
   return (
     <Layout
       style={{
