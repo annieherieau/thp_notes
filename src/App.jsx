@@ -138,7 +138,7 @@ const App = () => {
             margin: ".75rem 2rem",
           }}
         >
-          <h1>Bloc-Note</h1>
+          <h1>Bloc-Notes</h1>
           {currentNote && <NoteDisplay note={currentNote} />}
           <hr></hr>
           {currentNote && (
