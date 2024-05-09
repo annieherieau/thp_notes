@@ -55,6 +55,10 @@ $border: $lightgrey 1px solid;
   float: right;
 }
 
+.clear-storage{
+  margin-bottom: $spacing;
+}
+
 .delete-btn button:hover {
   background-color: $danger important;
   color: $danger;

@@ -1,6 +1,6 @@
 import { Button, Input } from "antd";
 
-export default function MarkdownInput({ note, onChange, onClick, onDelete }) {
+export default function MarkdownInput({ note, onChange, autoSave, onClick, onDelete }) {
   return (
     <div className="MarkdownInput">
       <label htmlFor="input-title">Titre</label>
@@ -26,9 +26,9 @@ export default function MarkdownInput({ note, onChange, onClick, onDelete }) {
         {note.content}
       </Input.TextArea>
       <div className="form-btns">
-        <Button type="primary" onClick={onClick}>
+        {!autoSave && <Button type="primary" onClick={onClick}>
           Sauvegarder
-        </Button>
+        </Button>}
         <Button type="" onClick={onDelete}>
           Supprimer
         </Button>
