@@ -18,6 +18,7 @@ const App = () => {
   const [currentNote, setCurrentNote] = useState(emptyNote());
   const [title, setTitle] = useState(currentNote.title);
   const [content, setContent] = useState(currentNote.content);
+  const [autoSave, setAutoSave] = useState(false);
 
   useEffect(() => {
     setSavedNotes(getNotes());
@@ -59,6 +60,7 @@ const App = () => {
     if (label === "content") {
       setContent(event.target.value);
     }
+    if (autoSave) {saveNote()};
   };
 
   function selectedNote(key = storageKeys[storageKeys.length - 1]) {
@@ -89,7 +91,6 @@ const App = () => {
   const clearStorage = () => {
     localStorage.clear();
     updateStorage();
-    
   };
 
   return (
@@ -108,6 +109,7 @@ const App = () => {
         >
           Nouvelle Note
         </Button>
+        
         <p>Notes Sauvegardées : {storageKeys.length}</p>
         {savedNotes.map((note) => (
           <NotePreview
@@ -120,7 +122,10 @@ const App = () => {
           />
         ))}
 
-        <Button danger className="clear-storage" onClick={clearStorage}>Effacter Tout</Button>
+        <Button danger className="clear-storage" onClick={clearStorage}>
+          Effacter Tout
+        </Button>
+        <Button onClick={()=>{setAutoSave(autoSave => !autoSave)}}>{autoSave ? 'Désactiver' : 'Activer'} AutoSave </Button>
       </Sider>
       <Layout>
         <Content
@@ -134,6 +139,7 @@ const App = () => {
             <MarkdownInput
               note={currentNote}
               onChange={updateNote}
+              autoSave={autoSave}
               onClick={saveNote}
               onDelete={() => {
                 deleteNote(currentNote.key);
